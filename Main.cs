@@ -176,7 +176,12 @@ class Program{
 				
 				string fffff = outFile.Replace("%", i.ToString());
 				
-				d.draw(fffff);
+				try{
+					d.draw(fffff);
+				}catch(Exception e){
+					Console.Error.WriteLine("Error drawing: " + e);
+					return;
+				}
 				
 				if(!notOpen){
 					ProcessStartInfo psi = new ProcessStartInfo{
@@ -205,7 +210,12 @@ class Program{
 			
 			string fffff = outFile.Replace("%", i.ToString());
 			
-			d.draw(fffff);
+			try{
+				d.draw(fffff);
+			}catch(Exception e){
+				Console.Error.WriteLine("Error drawing: " + e);
+				return;
+			}
 			
 			if(!notOpen){
 				ProcessStartInfo psi = new ProcessStartInfo{
@@ -223,7 +233,7 @@ class Program{
 		Console.WriteLine("HELP");
 		Console.WriteLine("LineStrip Generator generates linestrips in a series of iterations. Each line has a direction and a flavor. Flavor is a number used internally to produce more complex patterns.");
 		Console.WriteLine("Each iteration replaces each line (original) with 1 or more lines (replacement)");
-		Console.WriteLine("Example rules (Hilbert curve): 1X:1X;2X:;0U/0D:0C2X2W1X0X2C2E1C0X2C2E1E0W2E2C;0L/0R:0W2X2C1X0X2W2E1W0X2W2E1E0C2E2W;");
+		Console.WriteLine("Example rules (Hilbert curve): 2X:;0U/0D:0C2X2W1X0X2C2E1C0X2C2E1E0W2E2C;0L/0R:0W2X2C1X0X2W2E1W0X2W2E1E0C2E2W;");
 		Console.WriteLine();
 		Console.WriteLine("Usage:");
 		Console.WriteLine("lstripgen -r <rules> -i <iter num> [-s <starting strip>] [-o <output path>] [-t] [-p] [-l] [-h]");

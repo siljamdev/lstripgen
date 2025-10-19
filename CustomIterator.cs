@@ -152,23 +152,19 @@ class CustomIterator : IIterator{
         List<Line> r = new(d.Length);
 		
 		foreach(Line l in d){
-			try{
+			if(tree.Any(kvp => kvp.Key.flavor == l.flavor && (kvp.Key.dir == DirExt.X || kvp.Key.dir == (DirExt) l.dir))){
 				KeyValuePair<Node, Node[]> res = tree.First(kvp => kvp.Key.flavor == l.flavor && (kvp.Key.dir == DirExt.X || kvp.Key.dir == (DirExt) l.dir));
 				
 				foreach(Node od in res.Value){
 					r.Add(new Line(getDir(l, od.dir), od.flavor));
 				}
-			}catch(Exception e){
-				Console.Error.WriteLine("Error on: " + l);
-				Console.Error.WriteLine(e);
+			}else{
 				r.Add(l);
 			}
 		}
 		
 		return r.ToArray();
     }
-	
-	
 	
 	Dir getDir(Line l, DirExt d){
 		return d switch{

@@ -68,47 +68,43 @@ class ImageDrawer : Drawer{
 	}
 	
 	public override void draw(string file){
-		try{
-			using Bitmap bmp = new Bitmap(width, height);
-			using Graphics g = Graphics.FromImage(bmp);
-			
-			g.Clear(Color.Black);
-			
-			int x = sx;
-			int y = sy;
-			
-			using Pen pen = new Pen(Color.White, 1);
-			
-			foreach(Line d in lines){
-				int newX = x, newY = y;
-				switch(d.dir){
-					case Dir.U:
-						newY -= stepLen;
-					break;
-					
-					case Dir.D:
-						newY += stepLen;
-					break;
-					
-					case Dir.L:
-						newX -= stepLen;
-					break;
-					
-					case Dir.R:
-						newX += stepLen;
-					break;
-				}
+		using Bitmap bmp = new Bitmap(width, height);
+		using Graphics g = Graphics.FromImage(bmp);
+		
+		g.Clear(Color.Black);
+		
+		int x = sx;
+		int y = sy;
+		
+		using Pen pen = new Pen(Color.White, 1);
+		
+		foreach(Line d in lines){
+			int newX = x, newY = y;
+			switch(d.dir){
+				case Dir.U:
+					newY -= stepLen;
+				break;
 				
-				g.DrawLine(pen, x, y, newX, newY);
-				x = newX;
-				y = newY;
+				case Dir.D:
+					newY += stepLen;
+				break;
+				
+				case Dir.L:
+					newX -= stepLen;
+				break;
+				
+				case Dir.R:
+					newX += stepLen;
+				break;
 			}
 			
-			// save to file
-			bmp.Save(file, ImageFormat.Png);
-		}catch(Exception e){
-			Console.Error.WriteLine("Error drawing: " + e);
+			g.DrawLine(pen, x, y, newX, newY);
+			x = newX;
+			y = newY;
 		}
+		
+		// save to file
+		bmp.Save(file, ImageFormat.Png);
 	}
 }
 
