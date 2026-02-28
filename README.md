@@ -12,10 +12,10 @@ Pass it the `-h` flag to get CLI help.
 Flags:  
 |Flag|Description|
 |---|---|
-|-r <rules>|Mandatory flag. Sets the rules. (Info on the format with -h)|
-|-i <number>|Mandatory flag. Sets the number of iterations|
+|-r <rules>|**Mandatory** flag. Sets the rules. (Info on the format with `-h`)|
+|-i <number>|**Mandatory** flag. Sets the number of iterations|
 |-s <strip>|Sets starting sequence. Same format as rules. Default is `0U`|
-|-o <path>|Sets oupit path. `%` will be replaced by iteration count. Default is `%`|
+|-o <path>|Sets ouput path. `%` will be replaced by iteration count. Default is `%`|
 |-t|Enables text mode. Output files will be .txt instead of .png|
 |-p|Enables open mode. Output files will be opened when generated|
 |-l|Only the last iteration will generate an output file|
@@ -35,4 +35,4 @@ Flower: Cool flower-like shape `2X:2X2X2X;0X:1E0W1X2W1E0W1X0X1X0C1E2C1X0C1E;` St
 City: Random city-like grid `0X:0X0A;`  
 
 ## License
-This software is licensed under the [MIT License](https://github.com/siljamdev/lstripgen/blob/main/LICENSE).
+This software is licensed under the [MIT License](./LICENSE).
