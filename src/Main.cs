@@ -3,10 +3,10 @@ using System.Text;
 using System.Diagnostics;
 
 class Program{
-	public static void Main(string[] args){
+	public static int Main(string[] args){
 		if(args.Length == 0){
-			Console.WriteLine("Use -h for help");
-			return;
+			Console.WriteLine("No rules provided. Use -h for help");
+			return 11;
 		}
 		
 		int n = 0;
@@ -31,12 +31,12 @@ class Program{
 				
 				if(rules != null){
 					Console.Error.WriteLine("Rules already specified");
-					return;
+					return 3;
 				}
 				
 				if(n >= args.Length){
 					Console.Error.WriteLine("Expected following string after '-r'");
-					return;
+					return 1;
 				}
 				
 				rules = args[n];
@@ -45,17 +45,17 @@ class Program{
 				
 				if(iter != null){
 					Console.Error.WriteLine("Number of iterations already specified");
-					return;
+					return 3;
 				}
 				
 				if(n >= args.Length){
 					Console.Error.WriteLine("Expected following number after '-i'");
-					return;
+					return 1;
 				}
 				
 				if(!short.TryParse(args[n], out short nnn)){
 					Console.Error.WriteLine("Invalid number: " + args[n]);
-					return;
+					return 4;
 				}
 				
 				iter = nnn;
@@ -64,21 +64,21 @@ class Program{
 				
 				if(fileSp){
 					Console.Error.WriteLine("Output file already specified");
-					return;
+					return 3;
 				}
 				
 				fileSp = true;
 				
 				if(n >= args.Length){
 					Console.Error.WriteLine("Expected following path after '-o'");
-					return;
+					return 1;
 				}
 				
 				outFile = args[n];
 			}else if(args[n] == "-t"){
 				if(text){
 					Console.Error.WriteLine("Text mode already specified");
-					return;
+					return 3;
 				}
 				
 				text = true;
@@ -89,7 +89,7 @@ class Program{
 			}else if(args[n] == "-l"){
 				if(drawOnlyLast){
 					Console.Error.WriteLine("Draw only last mode already specified");
-					return;
+					return 3;
 				}
 				
 				drawOnlyLast = true;
@@ -98,46 +98,46 @@ class Program{
 				
 				if(sSet){
 					Console.Error.WriteLine("Start strip already specified");
-					return;
+					return 3;
 				}
 				
 				sSet = true;
 				
 				if(n >= args.Length){
 					Console.Error.WriteLine("Expected following string after '-s'");
-					return;
+					return 1;
 				}
 				
 				s = args[n];
 			}else if(args[n] == "-p"){
 				if(!notOpen){
 					Console.Error.WriteLine("Open mode already specified");
-					return;
+					return 3;
 				}
 				
 				notOpen = false;
 			}else if(args[n] == "-h"){
 				printHelp();
 			}else{
-				Console.Error.WriteLine("Unknown option: '" + args[n] + "'. Use -h for help");
-				return;
+				Console.Error.WriteLine("Unknown flag: '" + args[n] + "'. Use -h for help");
+				return 2;
 			}
 			n++;
 		}
 		
 		if(rules == null){
 			Console.Error.WriteLine("No rules provided. Use '-r'");
-			return;
+			return 11;
 		}
 		
 		if(iter == null){
 			Console.Error.WriteLine("No iteration count provided. Use '-i'");
-			return;
+			return 12;
 		}
 		
 		if(iter <= 0){
 			Console.Error.WriteLine("Iteration count must be greater than 0.");
-			return;
+			return 4;
 		}
 		
 		int c = 0;
@@ -149,7 +149,7 @@ class Program{
 			iterator = new CustomIterator(rules);
 		}catch(Exception e){
 			Console.Error.WriteLine("Rules error: " + e.Message);
-			return;
+			return 21;
 		}
 		
 		Line[] t;
@@ -158,7 +158,7 @@ class Program{
 			t = parseSeq(s);
 		}catch(Exception e){
 			Console.Error.WriteLine("Starting strip error: " + e.Message);
-			return;
+			return 22;
 		}
 		
 		if(!drawOnlyLast){
@@ -180,7 +180,7 @@ class Program{
 					d.draw(fffff);
 				}catch(Exception e){
 					Console.Error.WriteLine("Error drawing: " + e);
-					return;
+					return 30;
 				}
 				
 				if(!notOpen){
@@ -214,7 +214,7 @@ class Program{
 				d.draw(fffff);
 			}catch(Exception e){
 				Console.Error.WriteLine("Error drawing: " + e);
-				return;
+				return 30;
 			}
 			
 			if(!notOpen){
@@ -225,20 +225,23 @@ class Program{
 				Process.Start(psi);
 			}
 		}
+		
+		return 0;
 	}
 	
 	static void printHelp(){
-		Console.WriteLine("### LineStrip Generator by siljamdev ###");
+		Console.WriteLine("LineStrip Generator by Siljam");
 		Console.WriteLine();
-		Console.WriteLine("HELP");
+		Console.WriteLine("Usage:");
+		Console.WriteLine("lstripgen -r <rules> -i <iter num> [-s <starting strip>] [-o <output path>] [-t] [-p] [-l] [-h]");
+		Console.WriteLine("\t (Flag order may change)");
+		Console.WriteLine();
+		Console.WriteLine("Description:");
 		Console.WriteLine("LineStrip Generator generates linestrips in a series of iterations. Each line has a direction and a flavor. Flavor is a number used internally to produce more complex patterns.");
 		Console.WriteLine("Each iteration replaces each line (original) with 1 or more lines (replacement)");
 		Console.WriteLine("Example rules (Hilbert curve): 2X:;0U/0D:0C2X2W1X0X2C2E1C0X2C2E1E0W2E2C;0L/0R:0W2X2C1X0X2W2E1W0X2W2E1E0C2E2W;");
 		Console.WriteLine();
-		Console.WriteLine("Usage:");
-		Console.WriteLine("lstripgen -r <rules> -i <iter num> [-s <starting strip>] [-o <output path>] [-t] [-p] [-l] [-h]");
-		Console.WriteLine("\t (Order may change)");
-		Console.WriteLine();
+		Console.WriteLine("Flags:");
 		Console.WriteLine("-r  Rules are in the format rule; rule; rule; ...");
 		Console.WriteLine("\tEach rule can be written as: original : replacement");
 		Console.WriteLine("\tA line can be written as ND, where N represents a number (0-255) for flavor and D a direction, and ... the possibility to include more.");
