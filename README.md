@@ -21,9 +21,8 @@ Flags:
 |-l|Only the last iteration will generate an output file|
 
 ## Installation
-This application is available for Windows and Linux.  
+This application is available for Windows, Linux and MacOS.  
 Download an executable from the [Releases](https://github.com/siljamdev/lstripgen/releases/latest).  
-It is probably compatible with MacOS.  
 
 ## Example rules
 [Hilbert Curve](https://en.wikipedia.org/wiki/Hilbert_curve): Famous space filling curve `2X:;0U/0D:0C2X2W1X0X2C2E1C0X2C2E1E0W2E2C;0L/0R:0W2X2C1X0X2W2E1W0X2W2E1E0C2E2W;`  
