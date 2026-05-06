@@ -108,11 +108,11 @@ class ImageDrawer : Drawer{
 	}
 }
 
-class TextDrawer : Drawer{
+abstract class AbstarctTextDrawer : Drawer{
 	
 	const int margin = 1;
 	
-	public TextDrawer(Line[] d) : base(d){
+	public AbstarctTextDrawer(Line[] d) : base(d){
 		
 	}
 	
@@ -199,17 +199,19 @@ class TextDrawer : Drawer{
 		}
 		
 		// save to file
-		File.WriteAllText(file, sb.ToString());
+		write(file, sb.ToString());
 	}
+	
+	protected abstract void write(string file, string text);
 	
 	static char ConnToChar(Conn c){
 		return c switch {
-			Conn.Up | Conn.Down             => '│',
-			Conn.Left | Conn.Right          => '─',
-			Conn.Down | Conn.Right          => '┌',
-			Conn.Down | Conn.Left           => '┐',
-			Conn.Up   | Conn.Right          => '└',
-			Conn.Up   | Conn.Left           => '┘',
+			Conn.Up | Conn.Down => '│',
+			Conn.Left | Conn.Right => '─',
+			Conn.Down | Conn.Right => '┌',
+			Conn.Down | Conn.Left => '┐',
+			Conn.Up | Conn.Right => '└',
+			Conn.Up | Conn.Left => '┘',
 			Conn.Up | Conn.Left | Conn.Right => '┴',
 			Conn.Down | Conn.Left | Conn.Right => '┬',
 			Conn.Up | Conn.Down | Conn.Left => '┤',
@@ -217,6 +219,27 @@ class TextDrawer : Drawer{
 			Conn.Up | Conn.Down | Conn.Left | Conn.Right => '┼',
 			_ => ' '
 		};
+	}
+}
+
+class TextDrawer : AbstarctTextDrawer{
+	public TextDrawer(Line[] d) : base(d){
+		
+	}
+	
+	protected override void write(string file, string text){
+		File.WriteAllText(file, text);
+	}
+}
+
+class ConsoleDrawer : AbstarctTextDrawer{
+	public ConsoleDrawer(Line[] d) : base(d){
+		
+	}
+	
+	protected override void write(string file, string text){
+		Console.WriteLine(file);
+		Console.WriteLine(text);
 	}
 }
 

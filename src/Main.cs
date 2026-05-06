@@ -17,7 +17,7 @@ class Program{
 		bool fileSp = false;
 		string outFile = "%.png";
 		
-		bool text = false;
+		byte mode = 0; //0: image, 1: txt, 2:stdout
 		bool notOpen = true;
 		
 		bool sSet = false;
@@ -76,16 +76,26 @@ class Program{
 				
 				outFile = args[n];
 			}else if(args[n] == "-t"){
-				if(text){
-					Console.Error.WriteLine("Text mode already specified");
+				if(mode != 0){
+					Console.Error.WriteLine("Text/Stdout mode already specified");
 					return 3;
 				}
 				
-				text = true;
+				mode = 1;
 				
 				if(!fileSp){
 					outFile = "%.txt";
 				}
+			}else if(args[n] == "-c"){
+				if(mode != 0){
+					Console.Error.WriteLine("Text/Stdout mode already specified");
+					return 3;
+				}
+				
+				mode = 2;
+				
+				fileSp = true;
+				outFile = "%";
 			}else if(args[n] == "-l"){
 				if(drawOnlyLast){
 					Console.Error.WriteLine("Draw only last mode already specified");
@@ -168,10 +178,12 @@ class Program{
 				}
 				
 				Drawer d;
-				if(text){
+				if(mode == 0){
+					d = new ImageDrawer(t);
+				}else if(mode == 1){
 					d = new TextDrawer(t);
 				}else{
-					d = new ImageDrawer(t);
+					d = new ConsoleDrawer(t);
 				}
 				
 				string fffff = outFile.Replace("%", i.ToString());
@@ -183,7 +195,7 @@ class Program{
 					return 30;
 				}
 				
-				if(!notOpen){
+				if(!notOpen && mode != 2){
 					ProcessStartInfo psi = new ProcessStartInfo{
 						FileName = fffff,
 						UseShellExecute = true
@@ -202,10 +214,12 @@ class Program{
 			i--;
 			
 			Drawer d;
-			if(text){
+			if(mode == 0){
+				d = new ImageDrawer(t);
+			}else if(mode == 1){
 				d = new TextDrawer(t);
 			}else{
-				d = new ImageDrawer(t);
+				d = new ConsoleDrawer(t);
 			}
 			
 			string fffff = outFile.Replace("%", i.ToString());
@@ -217,7 +231,7 @@ class Program{
 				return 30;
 			}
 			
-			if(!notOpen){
+			if(!notOpen && mode != 2){
 				ProcessStartInfo psi = new ProcessStartInfo{
 					FileName = fffff,
 					UseShellExecute = true
@@ -257,7 +271,9 @@ class Program{
 		Console.WriteLine();
 		Console.WriteLine("-o  Output path. % will be replaced by iteration count.");
 		Console.WriteLine();
-		Console.WriteLine("-t  Enable text mode: Output will be in text");
+		Console.WriteLine("-t  Enable text mode: Output will be in text file");
+		Console.WriteLine();
+		Console.WriteLine("-c  Enable stdout mode: Output will be in stdout as text");
 		Console.WriteLine();
 		Console.WriteLine("-p  Enable open mode: Files will be opened when they are created");
 		Console.WriteLine();
