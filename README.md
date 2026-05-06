@@ -17,6 +17,7 @@ Flags:
 |-s <strip>|Sets starting sequence. Same format as rules. Default is `0U`|
 |-o <path>|Sets ouput path. `%` will be replaced by iteration count. Default is `%`|
 |-t|Enables text mode. Output files will be .txt instead of .png|
+|-c|Enables stdout mode. Output will be displayed as text on standard output|
 |-p|Enables open mode. Output files will be opened when generated|
 |-l|Only the last iteration will generate an output file|
 
