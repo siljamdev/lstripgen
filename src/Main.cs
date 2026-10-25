@@ -259,7 +259,7 @@ class Program{
 		Console.WriteLine("-r  Rules are in the format rule; rule; rule; ...");
 		Console.WriteLine("\tEach rule can be written as: original : replacement");
 		Console.WriteLine("\tA line can be written as ND, where N represents a number (0-255) for flavor and D a direction, and ... the possibility to include more.");
-		Console.WriteLine("\tAvailable directions are U(Up), D(Down), L(Left), R(Right), R(Random, only in replacement), X(any for original, keep direction for replacement), C(Rotate clockwise, only in replacement), W(Rotate counterclockwise, only in replacement), E(Rotate 180 degrees, only in replacement).");
+		Console.WriteLine("\tAvailable directions are U(Up), D(Down), L(Left), R(Right), A(Random, only in replacement), X(any for original, keep direction for replacement), C(Rotate clockwise, only in replacement), W(Rotate counterclockwise, only in replacement), E(Rotate 180 degrees, only in replacement).");
 		Console.WriteLine("\tIn the original, several lines can be set to avoid repetition. Separate them with '/'. Example 0D/0U: ...");
 		Console.WriteLine("\tIn the replacement, 0 or more lines can be specified, without separators. Example ...: 0L0R0U");
 		Console.WriteLine("\tThese rules govern how the linestrip will change over iterations. For example the rule '0D: 0D0D;' will take all lines going down of flavor 0 and replicate them twice.");
